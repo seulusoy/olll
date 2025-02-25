@@ -63,21 +63,21 @@ class Vector(list):
         return "[{}]".format(", ".join(str(x) for x in self))
 
 
-def gramschmidt(v: Sequence[Vector]) -> Sequence[Vector]:
+def gramschmidt(v: Sequence[Vector], u: Sequence[Vector]) -> Sequence[Vector]:
     """
     >>> gramschmidt([[3, 1], [2, 2]])
     [[3, 1], [-2/5, 6/5]]
     >>> gramschmidt([[4, 1, 2], [4, 7, 2], [3, 1, 7]])
     [[4, 1, 2], [-8/7, 40/7, -4/7], [-11/5, 0, 22/5]]
     """
-    u: List[Vector] = []
-    for vi in v:
-        ui = Vector(vi)
-        for uj in u:
-            ui = ui - uj.proj(vi)
+    #u: List[Vector] = []
+    vi = v[-1]
+    ui = Vector(vi)
+    for uj in u:
+        ui = ui - uj.proj(vi)
 
-        if any(ui):
-            u.append(ui)
+    if any(ui):
+        u.append(ui)
     return u
 
 
@@ -88,26 +88,40 @@ def reduction(basis: Sequence[Sequence[int]], delta: float) -> Sequence[Sequence
     >>> reduction([[105, 821, 404, 328], [881, 667, 644, 927], [181, 483, 87, 500], [893, 834, 732, 441]], 0.75)
     [[76, -338, -317, 172], [88, -171, -229, -314], [269, 312, -142, 186], [519, -299, 470, -73]]
     """
+    #print("reduction started")
     n = len(basis)
     basis = list(map(Vector, basis))
-    ortho = gramschmidt(basis)
+    ortho = [basis[0]]
+    ortho = gramschmidt(basis[:2], ortho)
+    #print(ortho)
 
     def mu(i: int, j: int) -> Fraction:
         return ortho[j].proj_coff(basis[i])
 
     k = 1
+    #print("n:",n)
+    #count = 0
     while k < n:
+        #count += 1
+        #if count&0xf==0:
+            #print("count:", count, "k:",k)
         for j in range(k - 1, -1, -1):
             mu_kj = mu(k, j)
             if abs(mu_kj) > 0.5:
                 basis[k] = basis[k] - basis[j] * round(mu_kj)
-                ortho = gramschmidt(basis)
-
+                #ortho = gramschmidt(basis[:k+1])
+        #print(len(ortho))
         if ortho[k].sdot() >= (delta - mu(k, k - 1)**2) * ortho[k - 1].sdot():
             k += 1
         else:
-            basis[k], basis[k - 1] = basis[k - 1], basis[k]
-            ortho = gramschmidt(basis)
-            k = max(k - 1, 1)
+            while k>0 and ortho[k].sdot() < (delta - mu(k, k - 1)**2) * ortho[k - 1].sdot():
+                basis[k], basis[k - 1] = basis[k - 1], basis[k]
+                #ortho = gramschmidt(basis)
+                k = k - 1
+            if k==0:
+                ortho = [basis[0]]
+                k = 1
+            
+        ortho = gramschmidt(basis[:k+1],ortho[:k])
 
     return [list(map(int, b)) for b in basis]
