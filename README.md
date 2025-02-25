@@ -1,3 +1,7 @@
+This repo is forked from https://github.com/orisano/olll/.
+When installation commands are run the original olll (https://github.com/orisano/olll/) is installed. You can change olll.py file of the original with olll.py here to run the optimized code.
+Use on your own risk.
+
 # oLLL
 
 [![PyPI version](https://badge.fury.io/py/olll.svg)](https://badge.fury.io/py/olll)
@@ -32,6 +36,7 @@ print(reduced_basis)
 
 ## Author
 Nao Yonashiro(@orisano)
+Sırrı Erdem ULUSOY(@seulusoy)
 
 ## License
 MIT
