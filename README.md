@@ -10,7 +10,9 @@ Use on your own risk.
 A Python3 Implementation of LLL.
 
 ## Installation
+```bash
 git clone https://github.com/seulusoy/olll.git
+```
 copy olll.py to your project folder.
 
 ## Example
@@ -31,6 +33,7 @@ print(reduced_basis)
 
 ## Author
 Nao Yonashiro(@orisano)
+
 Sırrı Erdem ULUSOY(@seulusoy)
 
 ## License
