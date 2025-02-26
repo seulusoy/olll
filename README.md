@@ -1,5 +1,5 @@
 This repo is forked from https://github.com/orisano/olll/.
-When installation commands are run the original olll (https://github.com/orisano/olll/) is installed. You can change olll.py file of the original with olll.py here to run the optimized code.
+
 Use on your own risk.
 
 # oLLL
@@ -10,13 +10,8 @@ Use on your own risk.
 A Python3 Implementation of LLL.
 
 ## Installation
-```bash
-python3 -m pip install olll
-```
-or
-```bash
-curl -O https://raw.githubusercontent.com/orisano/olll/master/olll.py
-```
+git clone https://github.com/seulusoy/olll.git
+copy olll.py to your project folder.
 
 ## Example
 https://en.wikipedia.org/wiki/Lenstra%E2%80%93Lenstra%E2%80%93Lov%C3%A1sz_lattice_basis_reduction_algorithm#Example
